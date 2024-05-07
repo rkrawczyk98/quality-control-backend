@@ -2,6 +2,11 @@
 require('dotenv').config();
 import { DataSource } from 'typeorm';
 import * as userEntities from './modules/user/entities';
+import * as componentEntities from './modules/component/entities';
+import * as customerEntities from './modules/customer/entities';
+import * as deliveryEntities from './modules/delivery/entities';
+import * as warehouseEntities from './modules/warehouse/entities';
+import * as refreshTokenEntities from './modules/auth/entities';
 
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -12,7 +17,12 @@ export const AppDataSource = new DataSource({
     database: process.env.DATABASE_NAME,
     entities: [
         // Tutaj zaimportować encje
+        ...Object.values(refreshTokenEntities),
         ...Object.values(userEntities),
+        ...Object.values(componentEntities),
+        ...Object.values(customerEntities),
+        ...Object.values(deliveryEntities),
+        ...Object.values(warehouseEntities),
     ],
     migrations: [
         __dirname + '/migrations/*{.ts,.js}',

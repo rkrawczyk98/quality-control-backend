@@ -11,10 +11,10 @@ async function bootstrap() {
     whitelist: true,
     forbidNonWhitelisted: true,
     transform: true }));
-  app.enableCors({
-    origin: process.env.CORS_URLS.split(',').map(url => url.trim()),// Ustawienie adresu URL aplikacji mobilnej/frontendowej
-    credentials: true,
-  });
+   app.enableCors({
+     origin: process.env.CORS_URLS.split(',').map(url => url.trim()),
+     credentials: true,
+   });
 
   const config = new DocumentBuilder()
   .setTitle('QualityControlApp API')
