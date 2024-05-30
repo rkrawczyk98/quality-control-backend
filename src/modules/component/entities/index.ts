@@ -4,3 +4,5 @@ export * from './component-subcomponent.entity'
 export * from './component-type.entity'
 export * from './subcomponent-status.entity'
 export * from './subcomponent.entity'
+export * from './component-subcomponent-history.entity'
+export * from './component-history.entity';
