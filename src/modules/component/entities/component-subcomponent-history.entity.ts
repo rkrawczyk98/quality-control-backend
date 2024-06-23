@@ -36,12 +36,12 @@ export class ComponentSubcomponentHistory {
 
   @Index()
   @Column()
-  componentId: number; // ID komponentu
+  componentId: number;
 
   @Column()
-  statusId: number; // ID statusu
+  statusId: number;
 
   @Index()
   @Column()
-  subcomponentId: number; // ID podkomponentu
+  subcomponentId: number;
 }

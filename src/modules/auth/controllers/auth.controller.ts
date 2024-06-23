@@ -25,48 +25,43 @@ export class AuthController {
 
   @Post('login')
   @ApiOperation({
-    summary: 'Log in user',
-    description: 'Authenticates user and returns access and refresh tokens.',
+    summary: 'Login User',
+    description: 'Authenticates a user using their credentials and issues access and refresh tokens.',
   })
-  @ApiBody({ type: LoginDto, description: 'User login credentials.' })
-  @ApiResponse({ status: 200, description: 'Login successful', type: TokenDto })
+  @ApiBody({
+    type: LoginDto,
+    description: 'User login credentials including username and password.'
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Login successful, returns access and refresh tokens along with the user ID.',
+    type: TokenDto
+  })
   @ApiResponse({
     status: 401,
-    description: 'Unauthorized - Invalid credentials',
+    description: 'Unauthorized - Invalid credentials provided.',
   })
-  // @ApiOperation({ summary: 'Log in user' })
-  // @ApiBody({ type: LoginDto })
-  // @ApiResponse({ status: 200, type: TokenDto })
   async login(@Body() loginDto: LoginDto, @Res() res: Response) {
-    const userDto = await this.authService.validateUser(
-      loginDto.username,
-      loginDto.password,
-    );
+    const userDto = await this.authService.validateUser(loginDto.username, loginDto.password);
     if (!userDto) {
-      return res
-        .status(HttpStatus.UNAUTHORIZED)
-        .json({ message: 'Invalid credentials' });
+      return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Invalid credentials' });
     }
     const payload = {
       userId: userDto.id,
       username: userDto.username,
-      roles: userDto.roles.map((role) => ({
-        id: role.id,
-        name: role.name,
-      })),
+      roles: userDto.roles.map(role => ({ id: role.id, name: role.name })),
     };
 
     const accessToken = this.jwtService.sign(payload);
-    const refreshToken = await this.refreshTokenService.generateRefreshToken(
-      userDto.id,
-      604800,
-    ); // 7 dni w sekundach
+    const refreshToken = await this.refreshTokenService.generateRefreshToken(userDto.id, 604800); // 7 dni w sekundach
 
     return res.status(HttpStatus.OK).json({
       access_token: accessToken,
       refresh_token: refreshToken,
+      user_id: userDto.id,
     });
   }
+
 
   @Post('refresh')
   @ApiOperation({
