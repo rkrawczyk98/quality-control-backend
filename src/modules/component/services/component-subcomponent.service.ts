@@ -27,6 +27,7 @@ export class ComponentSubcomponentService {
   async findAll(): Promise<ComponentSubcomponent[]> {
     return this.componentSubcomponentRepository.find({
       relations: ['component', 'subcomponent', 'status'],
+      order: {id: 'ASC'},
     });
   }
 
