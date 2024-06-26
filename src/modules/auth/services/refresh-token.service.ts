@@ -17,7 +17,12 @@ export class RefreshTokenService {
   ) {}
 
   async generateAccessToken(user: User) {
-    const payload = { username: user.username, sub: user.id };
+    const payload = {
+      userId: user.id,
+      username: user.username,
+      roles: user.userRoles?.map(role => ({ id: role.role.id, name: role.role.name })),
+    };
+    
     return this.jwtService.sign(payload);
   }
 

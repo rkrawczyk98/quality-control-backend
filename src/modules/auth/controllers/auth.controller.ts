@@ -111,6 +111,7 @@ export class AuthController {
     return {
       access_token: accessToken,
       refresh_token: newRefreshToken,
+      user_id: user.id,
     };
   }
 
