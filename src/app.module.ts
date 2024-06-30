@@ -11,9 +11,17 @@ import {
   WarehouseModule,
 } from './modules';
 import * as dotenv from 'dotenv';
+// import { ResponseDateFormatInterceptor } from './common/interceptors/response-date-format.interceptor';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 dotenv.config();
 
 @Module({
+  // providers: [
+  //   {
+  //     provide: APP_INTERCEPTOR,
+  //     useClass: ResponseDateFormatInterceptor,
+  //   },
+  // ],
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
@@ -41,6 +49,6 @@ dotenv.config();
     CustomerModule,
     DeliveryModule,
     WarehouseModule,
-  ], 
+  ],
 })
-export class AppModule{}
+export class AppModule {}
